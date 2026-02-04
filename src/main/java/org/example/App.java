@@ -31,12 +31,32 @@ public class App {
         }
     }
 
+    // [UI]: 사용자 상호 작용
     public void actionWrite() {
         System.out.print("명언 : ");
         String content = sc.nextLine();
         System.out.print("작가 : ");
         String author = sc.nextLine();
 
+        WiseSaying wiseSaying = write(content, author);
+
+        System.out.println("%d번 명언이 등록되었습니다.".formatted(wiseSaying.id));
+    }
+
+    public void actionList() {
+        System.out.println("번호 / 작가 / 명언");
+        System.out.println("----------------------");
+
+        // 내림차순 명언 받기
+        WiseSaying[] wiseSayings = findListDesc();
+
+        for (WiseSaying wiseSaying : wiseSayings) {
+            System.out.println("%d / %s / %s".formatted(wiseSaying.id, wiseSaying.author, wiseSaying.content));
+        }
+    }
+
+    // [비즈니스]: 업무 처리
+    public WiseSaying write(String content, String author) {
         WiseSaying wiseSaying = new WiseSaying();
 
         wiseSaying.id = ++id;
@@ -44,15 +64,20 @@ public class App {
         wiseSaying.author = author;
 
         wiseSayings[lastWiseSayingIndex++] = wiseSaying;
-        System.out.println(id + "번 명언이 등록되었습니다.");
+
+        return wiseSaying; // 저장한 것을 다시 돌려주는 것이 관례
     }
 
-    public void actionList() {
-        System.out.println("번호 / 작가 / 명언");
-        System.out.println("----------------------");
+    public WiseSaying[] findListDesc() {
+        WiseSaying[] resultList = new WiseSaying[lastWiseSayingIndex];
+        int resultListIndex = 0;
+
+        // 역순 배열 저장
         for (int i = lastWiseSayingIndex - 1; i >= 0; i--) {
-            WiseSaying foundedWiseSaying = wiseSayings[i];
-            System.out.println(foundedWiseSaying.id + " / " + foundedWiseSaying.author + " / " + foundedWiseSaying.content);
+            resultList[resultListIndex] = wiseSayings[i];
+            resultListIndex++;
         }
+
+        return resultList;
     }
 }
