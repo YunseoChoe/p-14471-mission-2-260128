@@ -28,6 +28,10 @@ public class App {
             else if (cmd.equals("목록")) {
                 actionList();
             }
+
+            else if (cmd.startsWith("삭제")) {
+                actionDelete(cmd);
+            }
         }
     }
 
@@ -48,10 +52,30 @@ public class App {
         System.out.println("----------------------");
 
         // 내림차순 명언 받기
-        WiseSaying[] wiseSayings = findListDesc();
+        WiseSaying[] wiseSayings = list();
 
         for (WiseSaying wiseSaying : wiseSayings) {
             System.out.println("%d / %s / %s".formatted(wiseSaying.id, wiseSaying.author, wiseSaying.content));
+        }
+    }
+
+    public void actionDelete(String cmd) {
+        String[] commandBits = cmd.split("=");
+
+        if (commandBits.length < 2) {
+            System.out.println("번호를 제대로 입력해주세요.");
+            return;
+        }
+
+        String idStr = commandBits[1];
+        int intIdStr = Integer.parseInt(idStr);
+
+        if (delete(intIdStr)) {
+            System.out.println("%d번이 삭제되었습니다.".formatted(intIdStr));
+        }
+
+        else {
+            System.out.println("%d번 명언은 존재하지 않습니다.".formatted(intIdStr));
         }
     }
 
@@ -68,7 +92,7 @@ public class App {
         return wiseSaying; // 저장한 것을 다시 돌려주는 것이 관례
     }
 
-    public WiseSaying[] findListDesc() {
+    public WiseSaying[] list() {
         WiseSaying[] resultList = new WiseSaying[lastWiseSayingIndex];
         int resultListIndex = 0;
 
@@ -79,5 +103,28 @@ public class App {
         }
 
         return resultList;
+    }
+
+    public boolean delete(int intIdStr) {
+        int deleteTargetIndex = -1; // 삭제하고 싶은 명언이 저장된 위치
+
+        for (int i = 0; i < lastWiseSayingIndex; i++) {
+            if (wiseSayings[i].id == intIdStr) {
+                deleteTargetIndex = i;
+                break;
+            }
+        }
+
+        if (deleteTargetIndex == -1) {
+            return false;
+        }
+
+        // 삭제
+        for (int i = deleteTargetIndex; i < lastWiseSayingIndex; i++) {
+            wiseSayings[i] = wiseSayings[i + 1];
+        }
+        lastWiseSayingIndex--;
+
+        return true;
     }
 }
