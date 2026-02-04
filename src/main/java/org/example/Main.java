@@ -1,14 +1,14 @@
 package org.example;
 
-// 최대한 라이브러리를 사용하지 않고 구현하기.
-
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-        int id = 1;
+        int id = 0;
+        WiseSaying[] wiseSayings = new WiseSaying[10];
+        int lastWiseSayingIndex = -1;
 
         System.out.println("== 명언 앱 ==");
 
@@ -20,14 +20,36 @@ public class Main {
                 break;
             }
 
-            if (cmd.equals("등록")) {
+            else if (cmd.equals("등록")) {
                 System.out.print("명언 : ");
-                String wiseSaying = sc.nextLine();
+                String content = sc.nextLine();
                 System.out.print("작가 : ");
                 String author = sc.nextLine();
 
+                WiseSaying wiseSaying = new WiseSaying();
+
+                wiseSaying.id = ++id;
+                wiseSaying.content = content;
+                wiseSaying.author = author;
+
+                wiseSayings[++lastWiseSayingIndex] = wiseSaying;
                 System.out.println(id + "번 명언이 등록되었습니다.");
+            }
+
+            else if (cmd.equals("목록")) {
+                System.out.println("번호 / 작가 / 명언");
+                System.out.println("----------------------");
+                for (int i = lastWiseSayingIndex; i >= 0; i--) {
+                    WiseSaying foundedWiseSaying = wiseSayings[i];
+                    System.out.println(foundedWiseSaying.id + " / " + foundedWiseSaying.author + " / " + foundedWiseSaying.content);
+                }
             }
         }
     }
+}
+
+class WiseSaying {
+    int id;
+    String author;
+    String content;
 }
