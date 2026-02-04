@@ -32,6 +32,10 @@ public class App {
             else if (cmd.startsWith("삭제")) {
                 actionDelete(cmd);
             }
+
+            else if (cmd.startsWith("수정")) {
+                actionModify(cmd);
+            }
         }
     }
 
@@ -79,6 +83,36 @@ public class App {
         }
     }
 
+    public void actionModify(String cmd) {
+        String[] commandBits = cmd.split("=");
+
+        if (commandBits.length < 2) {
+            System.out.println("번호를 제대로 입력해주세요.");
+            return;
+        }
+
+        String idStr = commandBits[1];
+        int intIdStr = Integer.parseInt(idStr);
+
+        int modifyTargetIndex = findIndexById(intIdStr);
+
+        if (modifyTargetIndex == -1) {
+            System.out.println("%d번 명언은 존재하지 않습니다.".formatted(intIdStr));
+            return;
+        }
+
+        WiseSaying modifyTargetWiseSaying = wiseSayings[modifyTargetIndex];
+
+        System.out.println("명언(기존) : %s".formatted(modifyTargetWiseSaying.content));
+        System.out.print("명언 : ");
+        String newContent = sc.nextLine();
+        System.out.println("작가(기존) : %s".formatted(modifyTargetWiseSaying.author));
+        System.out.print("작가 : ");
+        String newAuthor = sc.nextLine();
+
+        modify(modifyTargetWiseSaying, newContent, newAuthor);
+    }
+
     // [비즈니스]: 업무 처리
     public WiseSaying write(String content, String author) {
         WiseSaying wiseSaying = new WiseSaying();
@@ -106,15 +140,7 @@ public class App {
     }
 
     public boolean delete(int intIdStr) {
-        int deleteTargetIndex = -1; // 삭제하고 싶은 명언이 저장된 위치
-
-        for (int i = 0; i < lastWiseSayingIndex; i++) {
-            if (wiseSayings[i].id == intIdStr) {
-                deleteTargetIndex = i;
-                break;
-            }
-        }
-
+        int deleteTargetIndex = findIndexById(intIdStr);
         if (deleteTargetIndex == -1) {
             return false;
         }
@@ -126,5 +152,20 @@ public class App {
         lastWiseSayingIndex--;
 
         return true;
+    }
+
+    // id에 해당하는 명언이 몇 번째에 저장되어 있는지
+    public int findIndexById(int id) {
+        for (int i = 0; i < lastWiseSayingIndex; i++) {
+            if (wiseSayings[i].id == id) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void modify(WiseSaying modifyTargetWiseSaying, String newContent, String newAuthor) {
+        modifyTargetWiseSaying.content = newContent;
+        modifyTargetWiseSaying.author = newAuthor;
     }
 }
