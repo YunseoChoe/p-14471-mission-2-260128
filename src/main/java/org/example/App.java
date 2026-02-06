@@ -1,14 +1,18 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 // App 클래스로 뺀 이유: static 제약에서 벗어나기 위함
 public class App {
     // 인스턴스 변수: 모든 함수에서 사용할 수 있음
-    Scanner sc = new Scanner(System.in);
-    int id = 0;
-    WiseSaying[] wiseSayings = new WiseSaying[10];
-    int lastWiseSayingIndex = 0;
+    private Scanner sc = new Scanner(System.in);
+    private int id = 0;
+    // private WiseSaying[] wiseSayings = new WiseSaying[10];
+
+    // ArrayList가 아닌 List<WiseSaying>으로 한 이유: ArrayList, LinkedList 등이 있지만, List로 선언하면 모든 List 종류를 사용할 수 있다.
+    private List<WiseSaying> wiseSayings = new ArrayList<>();
 
     public void run() {
         System.out.println("== 명언 앱 ==");
@@ -56,7 +60,7 @@ public class App {
         System.out.println("----------------------");
 
         // 내림차순 명언 받기
-        WiseSaying[] wiseSayings = list();
+        List<WiseSaying> wiseSayings = list();
 
         for (WiseSaying wiseSaying : wiseSayings) {
             System.out.println("%d / %s / %s".formatted(wiseSaying.getId(), wiseSaying.getAuthor(), wiseSaying.getContent()));
@@ -101,7 +105,7 @@ public class App {
             return;
         }
 
-        WiseSaying modifyTargetWiseSaying = wiseSayings[modifyTargetIndex];
+        WiseSaying modifyTargetWiseSaying = wiseSayings.get(modifyTargetIndex);
 
         System.out.println("명언(기존) : %s".formatted(modifyTargetWiseSaying.getContent()));
         System.out.print("명언 : ");
@@ -115,28 +119,15 @@ public class App {
 
     // [비즈니스]: 업무 처리
     public WiseSaying write(String content, String author) {
-        WiseSaying wiseSaying = new WiseSaying(lastWiseSayingIndex, content, author);
-
-        wiseSaying.setId(++id);
-        wiseSaying.setContent(content);
-        wiseSaying.setAuthor(author);
-
-        wiseSayings[lastWiseSayingIndex++] = wiseSaying;
+//        ++id;
+        WiseSaying wiseSaying = new WiseSaying(++id, content, author);
+        wiseSayings.add(wiseSaying);
 
         return wiseSaying; // 저장한 것을 다시 돌려주는 것이 관례
     }
 
-    public WiseSaying[] list() {
-        WiseSaying[] resultList = new WiseSaying[lastWiseSayingIndex];
-        int resultListIndex = 0;
-
-        // 역순 배열 저장
-        for (int i = lastWiseSayingIndex - 1; i >= 0; i--) {
-            resultList[resultListIndex] = wiseSayings[i];
-            resultListIndex++;
-        }
-
-        return resultList;
+    public List<WiseSaying> list() {
+        return wiseSayings.reversed();
     }
 
     public boolean delete(int intIdStr) {
@@ -146,18 +137,14 @@ public class App {
         }
 
         // 삭제
-        for (int i = deleteTargetIndex; i < lastWiseSayingIndex; i++) {
-            wiseSayings[i] = wiseSayings[i + 1];
-        }
-        lastWiseSayingIndex--;
-
+        wiseSayings.remove(deleteTargetIndex);
         return true;
     }
 
     // id에 해당하는 명언이 몇 번째에 저장되어 있는지
     public int findIndexById(int id) {
-        for (int i = 0; i < lastWiseSayingIndex; i++) {
-            if (wiseSayings[i].getId() == id) {
+        for (int i = 0; i < wiseSayings.size(); i++) {
+            if (wiseSayings.get(i).getId() == id) {
                 return i;
             }
         }
