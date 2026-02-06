@@ -48,7 +48,7 @@ public class App {
 
         WiseSaying wiseSaying = write(content, author);
 
-        System.out.println("%d번 명언이 등록되었습니다.".formatted(wiseSaying.id));
+        System.out.println("%d번 명언이 등록되었습니다.".formatted(wiseSaying.getId()));
     }
 
     public void actionList() {
@@ -59,7 +59,7 @@ public class App {
         WiseSaying[] wiseSayings = list();
 
         for (WiseSaying wiseSaying : wiseSayings) {
-            System.out.println("%d / %s / %s".formatted(wiseSaying.id, wiseSaying.author, wiseSaying.content));
+            System.out.println("%d / %s / %s".formatted(wiseSaying.getId(), wiseSaying.getAuthor(), wiseSaying.getContent()));
         }
     }
 
@@ -103,10 +103,10 @@ public class App {
 
         WiseSaying modifyTargetWiseSaying = wiseSayings[modifyTargetIndex];
 
-        System.out.println("명언(기존) : %s".formatted(modifyTargetWiseSaying.content));
+        System.out.println("명언(기존) : %s".formatted(modifyTargetWiseSaying.getContent()));
         System.out.print("명언 : ");
         String newContent = sc.nextLine();
-        System.out.println("작가(기존) : %s".formatted(modifyTargetWiseSaying.author));
+        System.out.println("작가(기존) : %s".formatted(modifyTargetWiseSaying.getAuthor()));
         System.out.print("작가 : ");
         String newAuthor = sc.nextLine();
 
@@ -115,11 +115,11 @@ public class App {
 
     // [비즈니스]: 업무 처리
     public WiseSaying write(String content, String author) {
-        WiseSaying wiseSaying = new WiseSaying();
+        WiseSaying wiseSaying = new WiseSaying(lastWiseSayingIndex, content, author);
 
-        wiseSaying.id = ++id;
-        wiseSaying.content = content;
-        wiseSaying.author = author;
+        wiseSaying.setId(++id);
+        wiseSaying.setContent(content);
+        wiseSaying.setAuthor(author);
 
         wiseSayings[lastWiseSayingIndex++] = wiseSaying;
 
@@ -157,7 +157,7 @@ public class App {
     // id에 해당하는 명언이 몇 번째에 저장되어 있는지
     public int findIndexById(int id) {
         for (int i = 0; i < lastWiseSayingIndex; i++) {
-            if (wiseSayings[i].id == id) {
+            if (wiseSayings[i].getId() == id) {
                 return i;
             }
         }
@@ -165,7 +165,7 @@ public class App {
     }
 
     private void modify(WiseSaying modifyTargetWiseSaying, String newContent, String newAuthor) {
-        modifyTargetWiseSaying.content = newContent;
-        modifyTargetWiseSaying.author = newAuthor;
+        modifyTargetWiseSaying.setContent(newContent);
+        modifyTargetWiseSaying.setAuthor(newAuthor);
     }
 }
