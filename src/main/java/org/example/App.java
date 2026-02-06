@@ -3,6 +3,7 @@ package org.example;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 // App 클래스로 뺀 이유: static 제약에서 벗어나기 위함
 public class App {
@@ -143,12 +144,10 @@ public class App {
 
     // id에 해당하는 명언이 몇 번째에 저장되어 있는지
     public int findIndexById(int id) {
-        for (int i = 0; i < wiseSayings.size(); i++) {
-            if (wiseSayings.get(i).getId() == id) {
-                return i;
-            }
-        }
-        return -1;
+        return IntStream.range(0, wiseSayings.size())
+                .filter(i -> wiseSayings.get(i).getId() == id)
+                .findFirst()
+                .orElse(-1); // 없으면 -1
     }
 
     private void modify(WiseSaying modifyTargetWiseSaying, String newContent, String newAuthor) {
