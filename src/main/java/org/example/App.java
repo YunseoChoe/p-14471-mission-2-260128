@@ -22,6 +22,8 @@ public class App {
             System.out.print("명령) ");
             String cmd = sc.nextLine();
 
+            Rq rq = new Rq(cmd);
+
             if (cmd.equals("종료")) {
                 break;
             }
@@ -35,11 +37,11 @@ public class App {
             }
 
             else if (cmd.startsWith("삭제")) {
-                actionDelete(cmd);
+                actionDelete(rq);
             }
 
             else if (cmd.startsWith("수정")) {
-                actionModify(cmd);
+                actionModify(rq);
             }
         }
     }
@@ -68,15 +70,8 @@ public class App {
         }
     }
 
-    public void actionDelete(String cmd) {
-        String[] commandBits = cmd.split("=");
-
-        if (commandBits.length < 2) {
-            System.out.println("번호를 제대로 입력해주세요.");
-            return;
-        }
-
-        String idStr = commandBits[1];
+    public void actionDelete(Rq rq) {
+        String idStr = rq.getParam("id");
         int intIdStr = Integer.parseInt(idStr);
 
         if (delete(intIdStr)) {
@@ -88,15 +83,8 @@ public class App {
         }
     }
 
-    public void actionModify(String cmd) {
-        String[] commandBits = cmd.split("=");
-
-        if (commandBits.length < 2) {
-            System.out.println("번호를 제대로 입력해주세요.");
-            return;
-        }
-
-        String idStr = commandBits[1];
+    public void actionModify(Rq rq) {
+        String idStr = rq.getParam("id");
         int intIdStr = Integer.parseInt(idStr);
 
         int modifyTargetIndex = findIndexById(intIdStr);
@@ -134,7 +122,7 @@ public class App {
     public boolean delete(int intIdStr) {
         // 참고. for문으로 break로 찾아서 삭제하는 방법이 성능은 더 좋음.
         // removeIf는 가독성이 좋음.
-        return wiseSayings.removeIf(w -> w.getId() == id);
+        return wiseSayings.removeIf(w -> w.getId() == intIdStr);
     }
 
     // id에 해당하는 명언이 몇 번째에 저장되어 있는지
