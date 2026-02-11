@@ -1,25 +1,16 @@
-package org.example;
+package org.example.domain.wiseSaying;
 
-public class Main {
-    public static void main(String[] args) {
-        App app = new App();
-        app.run();
-    }
-}
-
-class WiseSaying {
+public class WiseSaying {
     private int id;
     private String author;
     private String content;
 
-    // 생성자
     public WiseSaying(int id, String content, String author) {
         this.id = id;
         this.content = content;
         this.author = author;
     }
 
-    // getter, setter
     public int getId() {
         return id;
     }
