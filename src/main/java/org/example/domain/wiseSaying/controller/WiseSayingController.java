@@ -42,6 +42,8 @@ public class WiseSayingController {
         String idStr = rq.getParam("id");
         int intIdStr = Integer.parseInt(idStr);
 
+        System.out.println("사용자에게 받은 삭제할 id: " + intIdStr);
+
         if (wiseSayingService.delete(intIdStr)) {
             System.out.println("%d번이 삭제되었습니다.".formatted(intIdStr));
         }
