@@ -1,50 +1,22 @@
 package org.example;
 
+//import org.example.controller.WiseSayingController;
+
+import org.example.domain.wiseSaying.controller.SystemController;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
-// App 클래스로 뺀 이유: static 제약에서 벗어나기 위함
+// App 클래스로 뺀 이유: main()의 static 제약에서 벗어나기 위함
 public class App {
     // 인스턴스 변수: 모든 함수에서 사용할 수 있음
     private Scanner sc = new Scanner(System.in);
+
     private int id = 0;
-    // private WiseSaying[] wiseSayings = new WiseSaying[10];
-
-    // ArrayList가 아닌 List<WiseSaying>으로 한 이유: ArrayList, LinkedList 등이 있지만, List로 선언하면 모든 List 종류를 사용할 수 있다.
     private List<WiseSaying> wiseSayings = new ArrayList<>();
-
-    public void run() {
-        System.out.println("== 명언 앱 ==");
-
-        while (true) {
-            System.out.print("명령) ");
-            String cmd = sc.nextLine();
-
-            Rq rq = new Rq(cmd);
-
-            if (cmd.equals("종료")) {
-                break;
-            }
-
-            else if (cmd.equals("등록")) {
-                actionWrite();
-            }
-
-            else if (cmd.equals("목록")) {
-                actionList();
-            }
-
-            else if (cmd.startsWith("삭제")) {
-                actionDelete(rq);
-            }
-
-            else if (cmd.startsWith("수정")) {
-                actionModify(rq);
-            }
-        }
-    }
+    private SystemController systemController = new SystemController();
 
     // [UI]: 사용자 상호 작용
     public void actionWrite() {
@@ -137,4 +109,38 @@ public class App {
         modifyTargetWiseSaying.setContent(newContent);
         modifyTargetWiseSaying.setAuthor(newAuthor);
     }
+
+    public void run() {
+        System.out.println("== 명언 앱 ==");
+
+        while (true) {
+            System.out.print("명령) ");
+            String cmd = sc.nextLine();
+
+            Rq rq = new Rq(cmd);
+
+            if (cmd.equals("종료")) {
+                systemController.exit();
+                break;
+            }
+
+            else if (cmd.equals("등록")) {
+                actionWrite();
+            }
+
+            else if (cmd.equals("목록")) {
+                actionList();
+            }
+
+            else if (cmd.startsWith("삭제")) {
+                actionDelete(rq);
+            }
+
+            else if (cmd.startsWith("수정")) {
+                actionModify(rq);
+            }
+        }
+    }
+
+
 }
