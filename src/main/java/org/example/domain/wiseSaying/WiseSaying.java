@@ -11,6 +11,11 @@ public class WiseSaying {
         this.author = author;
     }
 
+    public boolean isNew() {
+        System.out.println("id: " + id);
+        return id == 0;
+    }
+
     public int getId() {
         return id;
     }

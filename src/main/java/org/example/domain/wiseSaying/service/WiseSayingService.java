@@ -6,14 +6,12 @@ import org.example.domain.wiseSaying.repository.WiseSayingRepository;
 import java.util.List;
 
 public class WiseSayingService {
-    private int id = 0;
     private WiseSayingRepository wiseSayingRepository = new WiseSayingRepository();
 
     // [비즈니스]: 업무 처리
     public WiseSaying write(String content, String author) {
-        // ++id;
-        WiseSaying wiseSaying = new WiseSaying(++id, content, author);
-        wiseSayingRepository.save(wiseSaying);
+        WiseSaying wiseSaying = new WiseSaying(0, content, author); // 새롭게 저장되는 id를 0으로 세팅.
+        wiseSaying = wiseSayingRepository.save(wiseSaying);
         return wiseSaying; // 저장한 것을 다시 돌려주는 것이 관례
     }
 
@@ -31,6 +29,9 @@ public class WiseSayingService {
     public void modify(WiseSaying modifyTargetWiseSaying, String newContent, String newAuthor) {
         modifyTargetWiseSaying.setContent(newContent);
         modifyTargetWiseSaying.setAuthor(newAuthor);
+
+        // 저장 (실질적 저장)
+        // wiseSayingRepository.save(modifyTargetWiseSaying);
     }
 
     public WiseSaying findById(int id) {

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class WiseSayingRepository {
+    private int id = 0;
     private List<WiseSaying> wiseSayings = new ArrayList<>();
 
     public List<WiseSaying> getWiseSayings() {
@@ -28,8 +29,18 @@ public class WiseSayingRepository {
         return wiseSayings.get(index);
     }
 
-    public void save(WiseSaying wiseSaying) {
-        wiseSayings.add(wiseSaying);
+    public WiseSaying save(WiseSaying wiseSaying) {
+        /* write/modify 구분 */
+        // write
+        if (wiseSaying.isNew()) { // true이면 새롭게 저장되는 wiseSaying.
+            wiseSaying.setId(++id);
+            wiseSayings.add(wiseSaying);
+        }
+        // modify
+        // else {
+        // }
+
+        return wiseSaying;
     }
 
     public List<WiseSaying> findListDesc() {
