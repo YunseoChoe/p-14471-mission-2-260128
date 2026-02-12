@@ -34,7 +34,7 @@ public class WiseSayingController {
         // 내림차순 명언 받기
         List<WiseSaying> wiseSayings = wiseSayingService.list();
         for (WiseSaying wiseSaying : wiseSayings) {
-            System.out.println("%d / %s / %s".formatted(wiseSaying.getId(), wiseSaying.getAuthor(), wiseSaying.getContent()));
+            System.out.println("%d / %s / %s / %s / %s".formatted(wiseSaying.getId(), wiseSaying.getAuthor(), wiseSaying.getContent(), wiseSaying.getCreatedDate(), wiseSaying.getModifiedDate()));
         }
     }
 

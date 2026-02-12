@@ -34,11 +34,15 @@ public class WiseSayingRepository {
         // write
         if (wiseSaying.isNew()) { // true이면 새롭게 저장되는 wiseSaying.
             wiseSaying.setId(++id);
+            wiseSaying.setCreatedDate(java.time.LocalDateTime.now());
+            wiseSaying.setModifiedDate(java.time.LocalDateTime.now());
             wiseSayings.add(wiseSaying);
         }
+
         // modify
-        // else {
-        // }
+         else {
+             wiseSaying.setModifiedDate(java.time.LocalDateTime.now());
+         }
 
         return wiseSaying;
     }

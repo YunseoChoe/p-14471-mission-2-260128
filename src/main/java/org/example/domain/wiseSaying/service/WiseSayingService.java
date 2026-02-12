@@ -31,7 +31,7 @@ public class WiseSayingService {
         modifyTargetWiseSaying.setAuthor(newAuthor);
 
         // 저장 (실질적 저장)
-        // wiseSayingRepository.save(modifyTargetWiseSaying);
+         wiseSayingRepository.save(modifyTargetWiseSaying);
     }
 
     public WiseSaying findById(int id) {
