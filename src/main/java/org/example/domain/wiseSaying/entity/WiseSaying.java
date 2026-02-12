@@ -1,4 +1,4 @@
-package org.example.domain.wiseSaying;
+package org.example.domain.wiseSaying.entity;
 
 import java.time.LocalDateTime;
 

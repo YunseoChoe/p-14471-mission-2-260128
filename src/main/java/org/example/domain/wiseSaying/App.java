@@ -2,15 +2,17 @@ package org.example.domain.wiseSaying;
 
 import org.example.domain.wiseSaying.controller.SystemController;
 import org.example.domain.wiseSaying.controller.WiseSayingController;
+import org.example.global.AppContext;
+import org.example.global.Rq;
 
 import java.util.Scanner;
 
 // App 클래스로 뺀 이유: main()의 static 제약에서 벗어나기 위함
 public class App {
-    private Scanner sc = new Scanner(System.in);
+    private Scanner sc = AppContext.sc;
 
-    private SystemController systemController = new SystemController();
-    private WiseSayingController wiseSayingController = new WiseSayingController(sc);
+    private SystemController systemController = AppContext.systemController;
+    private WiseSayingController wiseSayingController = AppContext.wiseSayingController;
 
     public void run() {
         System.out.println("== 명언 앱 ==");

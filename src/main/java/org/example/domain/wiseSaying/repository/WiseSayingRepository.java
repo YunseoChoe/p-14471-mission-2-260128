@@ -1,6 +1,6 @@
 package org.example.domain.wiseSaying.repository;
 
-import org.example.domain.wiseSaying.WiseSaying;
+import org.example.domain.wiseSaying.entity.WiseSaying;
 
 import java.util.ArrayList;
 import java.util.List;

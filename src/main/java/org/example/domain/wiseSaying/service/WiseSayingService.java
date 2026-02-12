@@ -1,12 +1,13 @@
 package org.example.domain.wiseSaying.service;
 
-import org.example.domain.wiseSaying.WiseSaying;
+import org.example.domain.wiseSaying.entity.WiseSaying;
 import org.example.domain.wiseSaying.repository.WiseSayingRepository;
+import org.example.global.AppContext;
 
 import java.util.List;
 
 public class WiseSayingService {
-    private WiseSayingRepository wiseSayingRepository = new WiseSayingRepository();
+    private WiseSayingRepository wiseSayingRepository = AppContext.wiseSayingRepository;
 
     // [비즈니스]: 업무 처리
     public WiseSaying write(String content, String author) {

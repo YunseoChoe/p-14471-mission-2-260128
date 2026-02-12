@@ -1,7 +1,8 @@
 package org.example.domain.wiseSaying.controller;
 
-import org.example.domain.wiseSaying.Rq;
-import org.example.domain.wiseSaying.WiseSaying;
+import org.example.global.AppContext;
+import org.example.global.Rq;
+import org.example.domain.wiseSaying.entity.WiseSaying;
 import org.example.domain.wiseSaying.service.WiseSayingService;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class WiseSayingController {
     public WiseSayingController(Scanner sc) {
         this.sc = sc; // 생성자로 sc를 받는 이유: 계속 sc를 써야하므로, 매개변수가 아닌 생성자로 한 번만 주입함.
     }
-    WiseSayingService wiseSayingService = new WiseSayingService();
+    WiseSayingService wiseSayingService = AppContext.wiseSayingService;
 
     // [UI]: 사용자 상호 작용
     public void actionWrite() {
@@ -41,8 +42,6 @@ public class WiseSayingController {
     public void actionDelete(Rq rq) {
         String idStr = rq.getParam("id");
         int intIdStr = Integer.parseInt(idStr);
-
-        System.out.println("사용자에게 받은 삭제할 id: " + intIdStr);
 
         if (wiseSayingService.delete(intIdStr)) {
             System.out.println("%d번이 삭제되었습니다.".formatted(intIdStr));
